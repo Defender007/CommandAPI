@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CommandAPI.Models
 {
-    public class Commands 
+    public class Command 
     {
         [Key]
         [Required]
-        public int id {get; set;}
+        public int Id {get; set;}
         
         [Required]
         [MaxLength(250)]
