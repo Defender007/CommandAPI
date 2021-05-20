@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using Newtonsoft.Json.Serialization;
 
 namespace CommandAPI
 {
@@ -29,12 +30,19 @@ namespace CommandAPI
         {
             // ++++
             var builder = new NpgsqlConnectionStringBuilder();
-            builder.ConnectionString = 
+            builder.ConnectionString =
             Configuration.GetConnectionString("PostgreSqlConnection");
             builder.Username = Configuration["UserID"];
             builder.Password = Configuration["Password"];
-             // ++++
+           
+            // ++++
             services.AddDbContext<CommandContext>(opt => opt.UseNpgsql(builder.ConnectionString));
+             // ++++
+            services.AddControllers().AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new
+                CamelCasePropertyNamesContractResolver();
+            });
             // ++++
             services.AddControllers();
             // ++++
